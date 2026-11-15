@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthGrade — Ingredient Scanner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">H</div>
+      <div>
+        <h1>HealthGrade</h1>
+        <span>Scan • Understand • Choose better</span>
+      </div>
+    </div>
+    <button id="historyBtn" class="ghost-btn">History</button>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">AI-STYLE HEALTH SCANNER</p>
+        <h2>Know what's inside<br><span>before you buy.</span></h2>
+        <p class="hero-copy">Scan an ingredient label and get a simple A–F health grade with an easy-to-understand breakdown.</p>
+      </div>
+      <div class="hero-badge">A–F</div>
+    </section>
+
+    <section class="scanner-card">
+      <div class="section-head">
+        <div>
+          <h3>Scan ingredient label</h3>
+          <p>Use your camera, upload a label photo, or paste ingredients below.</p>
+        </div>
+        <span id="cameraStatus" class="status">Camera off</span>
+      </div>
+
+      <div class="camera-wrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas" hidden></canvas>
+        <div id="cameraPlaceholder" class="camera-placeholder">
+          <div class="camera-icon">⌁</div>
+          <strong>Camera preview</strong>
+          <span>Position the ingredient list inside the frame</span>
+        </div>
+        <div class="scan-frame"></div>
+      </div>
+
+      <div class="actions">
+        <button id="startCamera" class="primary-btn">Open Camera</button>
+        <button id="captureBtn" class="secondary-btn" disabled>Capture & Scan</button>
+        <label class="secondary-btn file-btn">
+          Upload Image
+          <input id="fileInput" type="file" accept="image/*">
+        </label>
+      </div>
+
+      <div class="divider"><span>OR</span></div>
+
+      <label class="input-label" for="ingredients">Ingredient list</label>
+      <textarea id="ingredients" placeholder="Example: Potatoes, sunflower oil, sea salt, citric acid..."></textarea>
+
+      <div class="sample-row">
+        <span>Try a sample:</span>
+        <button class="sample" data-sample="Potatoes, sunflower oil, sea salt">Simple chips</button>
+        <button class="sample" data-sample="Whole grain oats, almonds, dates, cocoa powder, sea salt">Granola</button>
+        <button class="sample" data-sample="Sugar, glucose syrup, palm oil, wheat flour, artificial flavor, colors, sodium benzoate">Highly processed snack</button>
+      </div>
+
+      <button id="gradeBtn" class="grade-btn">Analyze & Get Health Grade</button>
+      <p id="ocrStatus" class="ocr-status"></p>
+    </section>
+
+    <section id="resultSection" class="result-section hidden">
+      <div class="result-card">
+        <div class="result-top">
+          <div>
+            <p class="eyebrow">YOUR RESULT</p>
+            <h3 id="productName">Scanned Product</h3>
+            <p id="ingredientCount">0 ingredients detected</p>
+          </div>
+          <div id="gradeCircle" class="grade-circle">A</div>
+        </div>
+
+        <div id="gradeLabel" class="grade-label">Excellent choice</div>
+        <p id="gradeExplanation" class="grade-explanation"></p>
+
+        <div class="score-grid">
+          <div class="score-item">
+            <span>Ingredients</span>
+            <strong id="ingredientScore">A</strong>
+          </div>
+          <div class="score-item">
+            <span>Additives</span>
+            <strong id="additiveScore">A</strong>
+          </div>
+          <div class="score-item">
+            <span>Processing</span>
+            <strong id="processingScore">A</strong>
+          </div>
+          <div class="score-item">
+            <span>Nutrition</span>
+            <strong id="nutritionScore">A</strong>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <h4>Why this grade?</h4>
+          <div id="reasonList"></div>
+        </div>
+
+        <div class="ingredients-preview">
+          <h4>Detected ingredients</h4>
+          <p id="detectedIngredients"></p>
+        </div>
+
+        <button id="scanAgain" class="secondary-btn full">Scan Another Product</button>
+      </div>
+
+      <div class="guide">
+        <h3>Health Grade Guide</h3>
+        <div class="grade-guide">
+          <div class="guide-item"><b>A</b><span>Excellent</span><small>Mostly whole, nutrient-dense ingredients.</small></div>
+          <div class="guide-item"><b>B</b><span>Good</span><small>Generally good with some processing.</small></div>
+          <div class="guide-item"><b>C</b><span>Average</span><small>Mixed ingredients or moderate additives.</small></div>
+          <div class="guide-item"><b>D</b><span>Poor</span><small>Several less healthy components.</small></div>
+          <div class="guide-item"><b>E</b><span>Very Poor</span><small>Highly processed or high-risk ingredients.</small></div>
+          <div class="guide-item"><b>F</b><span>Extremely Poor</span><small>Strong concentration of unhealthy markers.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="historySection" class="history hidden">
+      <div class="section-head">
+        <div>
+          <h3>Scan History</h3>
+          <p>Your prototype history is stored in this browser.</p>
+        </div>
+        <button id="clearHistory" class="ghost-btn">Clear</button>
+      </div>
+      <div id="historyList"></div>
+    </section>
+  </main>
+
+  <footer>
+    Prototype only • Grades are heuristic and not medical or regulatory advice.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
